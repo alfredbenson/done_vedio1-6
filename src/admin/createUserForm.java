@@ -6,9 +6,9 @@
 package admin;
 
 
-import testapp_26.regForm;
-import static testapp_26.regForm.email;
-import static testapp_26.regForm.username;
+import BaranggaySystem.regForm;
+import static BaranggaySystem.regForm.email;
+import static BaranggaySystem.regForm.username;
 import config.dbConnector;
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package testapp_26;
+package BaranggaySystem;
 
 import config.dbConnector;
 import java.sql.ResultSet;
@@ -106,7 +106,7 @@ public class regForm extends javax.swing.JFrame {
         );
 
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(0, 0, 788, 58);
+        jPanel1.setBounds(0, 0, 788, 0);
 
         jPanel2.setBackground(new java.awt.Color(0, 153, 255));
 
