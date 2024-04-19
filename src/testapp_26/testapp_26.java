@@ -3,13 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package barangaysystem;
+package testapp_26;
 
-/**
- *
- * @author Alfred
- */
-public class BarangaySystem {
+
+public class testapp_26 {
 
     /**
      * @param args the command line arguments

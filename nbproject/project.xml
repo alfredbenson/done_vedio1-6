@@ -3,8 +3,9 @@
     <type>org.netbeans.modules.java.j2seproject</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/j2se-project/3">
-            <name>BarangaySystem</name>
+            <name>testapp_26</name>
             <source-roots>
+                <root id="src.Pacure.dir"/>
                 <root id="src.dir"/>
             </source-roots>
             <test-roots>

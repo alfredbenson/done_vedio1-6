@@ -5,7 +5,7 @@
  */
 package user;
 
-import barangaysystem.loginform;
+import testapp_26.loginform;
 import config.Session;
 import javax.swing.JOptionPane;
 

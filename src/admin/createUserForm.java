@@ -6,9 +6,9 @@
 package admin;
 
 
-import barangaysystem.regForm;
-import static barangaysystem.regForm.email;
-import static barangaysystem.regForm.username;
+import testapp_26.regForm;
+import static testapp_26.regForm.email;
+import static testapp_26.regForm.username;
 import config.dbConnector;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,7 +17,7 @@ import user.usersForm;
 
 /**
  *
- * @author Alfred
+
  */
 public class createUserForm extends javax.swing.JFrame {
 
