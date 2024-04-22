@@ -8,6 +8,8 @@ package BaranggaySystem;
 import admin.adminDashboard;
 import config.Session;
 import config.dbConnector;
+import config.passwordHasher;
+import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
@@ -28,15 +30,23 @@ public class loginform extends javax.swing.JFrame {
     
     static String status;
     static String type;
+        
     public static boolean loginAcc(String username, String password){
         dbConnector connector = new dbConnector();
         
         try{
-            String query = "SELECT * FROM tbl_user  WHERE u_username = '" + username + "' AND u_password = '" + password + "'";
+            String query = "SELECT * FROM tbl_user  WHERE u_username = '" + username + "'";
             ResultSet resultSet = connector.getData(query);
             if(resultSet.next()){
+             
            
-            status = resultSet.getString("u_status");
+              String hashedPass = resultSet.getString("u_password");
+              String rehashedPass = passwordHasher.hashPassword(password);
+              
+                System.out.println(""+hashedPass);
+                System.out.println(""+rehashedPass);
+                if(hashedPass.equals(rehashedPass)){
+             status = resultSet.getString("u_status");
             type = resultSet.getString("u_type");
             Session sess = Session.getInstance();
             sess.setUid(resultSet.getInt("u_id"));
@@ -46,16 +56,18 @@ public class loginform extends javax.swing.JFrame {
             sess.setEmail(resultSet.getString("u_username"));
             sess.setType(resultSet.getString("u_type"));
             sess.setStatus(resultSet.getString("u_status"));
-                        
-            return true;
-        }else{
+                return true;
+            }else{
+            return false;
+            }  
+            
+            }else{
             return false;
         }
-        }catch (SQLException ex) {
+        }catch(SQLException | NoSuchAlgorithmException ex) {
          return false;
         }
-
-    }
+        }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -71,7 +83,7 @@ public class loginform extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        pass = new javax.swing.JTextField();
+        ps = new javax.swing.JTextField();
         un = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -80,7 +92,7 @@ public class loginform extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
 
-        jPanel1.setBackground(new java.awt.Color(0, 153, 255));
+        jPanel1.setBackground(new java.awt.Color(153, 51, 255));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("LOGIN FORM");
@@ -105,7 +117,7 @@ public class loginform extends javax.swing.JFrame {
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 210, 480);
 
-        jPanel2.setBackground(new java.awt.Color(102, 102, 255));
+        jPanel2.setBackground(new java.awt.Color(204, 0, 204));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel2.setText("User Name :");
@@ -129,6 +141,16 @@ public class loginform extends javax.swing.JFrame {
         jTextField1.setForeground(new java.awt.Color(255, 255, 255));
         jTextField1.setText("Registered?Click here to login");
         jTextField1.setCaretColor(new java.awt.Color(102, 102, 255));
+        jTextField1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTextField1MouseClicked(evt);
+            }
+        });
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -142,7 +164,7 @@ public class loginform extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(44, 44, 44)
-                                .addComponent(pass, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(ps, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -169,7 +191,7 @@ public class loginform extends javax.swing.JFrame {
                 .addGap(47, 47, 47)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pass, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ps, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(44, 44, 44)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -189,7 +211,7 @@ public class loginform extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
        
       
-        if(loginAcc(un.getText(),pass.getText())){
+        if(loginAcc(un.getText(),ps.getText())){
         if(!status.equals("active")){
             
             JOptionPane.showMessageDialog(null,"In-Active Account Contact to admin!"); 
@@ -214,6 +236,18 @@ public class loginform extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null,"INVALED ACCOUNT!");
            }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+      
+               
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jTextField1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField1MouseClicked
+         regForm rf = new regForm();
+         rf.setVisible(true);
+         this.dispose();
+       
+    }//GEN-LAST:event_jTextField1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -259,7 +293,7 @@ public class loginform extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField pass;
+    private javax.swing.JTextField ps;
     private javax.swing.JTextField un;
     // End of variables declaration//GEN-END:variables
 }

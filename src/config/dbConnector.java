@@ -5,6 +5,7 @@
  */
 package config;
 
+
 import com.mysql.jdbc.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -48,7 +49,7 @@ public class dbConnector {
         }
         
          //Function to update data
-        public void updateData(String sql){
+          public void updateData(String sql){
             try{
                 PreparedStatement pst = connect.prepareStatement(sql);
                     int rowsUpdated = pst.executeUpdate();
