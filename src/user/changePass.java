@@ -63,7 +63,6 @@ public class changePass extends javax.swing.JFrame {
                 formWindowActivated(evt);
             }
         });
-        getContentPane().setLayout(null);
 
         jPanel1.setBackground(new java.awt.Color(153, 51, 255));
         jPanel1.setLayout(null);
@@ -88,10 +87,7 @@ public class changePass extends javax.swing.JFrame {
         iddisplay.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         iddisplay.setText("(UID)");
         jPanel1.add(iddisplay);
-        iddisplay.setBounds(300, 20, 40, 20);
-
-        getContentPane().add(jPanel1);
-        jPanel1.setBounds(0, 0, 784, 74);
+        iddisplay.setBounds(300, 20, 150, 20);
 
         jPanel2.setBackground(new java.awt.Color(204, 0, 204));
 
@@ -140,9 +136,6 @@ public class changePass extends javax.swing.JFrame {
                 .addGap(45, 45, 45))
         );
 
-        getContentPane().add(jPanel2);
-        jPanel2.setBounds(0, 70, 190, 410);
-
         jPanel3.setBackground(new java.awt.Color(51, 102, 255));
 
         jLabel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -154,6 +147,12 @@ public class changePass extends javax.swing.JFrame {
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel5.setText("Confirm Password :");
+
+        conpass.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                conpassActionPerformed(evt);
+            }
+        });
 
         jPanel4.setBackground(new java.awt.Color(0, 51, 204));
         jPanel4.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -220,8 +219,25 @@ public class changePass extends javax.swing.JFrame {
                 .addContainerGap(106, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel3);
-        jPanel3.setBounds(190, 70, 590, 410);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(190, 190, 190)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 784, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(70, 70, 70)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
 
         pack();
         setLocationRelativeTo(null);
@@ -250,14 +266,14 @@ public class changePass extends javax.swing.JFrame {
          Session sess = Session.getInstance();
          
      
-       String query = "SELECT * FROM tbl_user  WHERE u_id = '" + sess.getUid()+ "'";
+       String query = "SELECT * FROM tbl_user  WHERE u_id = '"+sess.getUid()+"'";
             ResultSet rs = dbc.getData(query);
          if(rs.next()){
          String olddbpass = rs.getString("u_password");
          String oldhash = passwordHasher.hashPassword(oldpass.getText());
          if(olddbpass.equals(oldhash)){
              String npass = passwordHasher.hashPassword(newpass.getText());
-             dbc.updateData("UPDATE tbl_user SET u_password = '"+npass+"'");
+             dbc.updateData("UPDATE tbl_user SET u_password = '"+npass+"' WHERE u_id = '"+sess.getUid()+"'");
              JOptionPane.showMessageDialog(null,"Succesfully Updated");
              loginform lf = new loginform();
              lf.setVisible(true);
@@ -272,6 +288,10 @@ public class changePass extends javax.swing.JFrame {
           System.out.println(""+ex);
       } 
     }//GEN-LAST:event_jPanel4MouseClicked
+
+    private void conpassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_conpassActionPerformed
+       
+    }//GEN-LAST:event_conpassActionPerformed
 
     /**
      * @param args the command line arguments
