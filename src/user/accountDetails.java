@@ -145,18 +145,22 @@ public class accountDetails extends javax.swing.JFrame {
         getContentPane().add(jPanel2);
         jPanel2.setBounds(0, 70, 190, 410);
 
-        jPanel3.setBackground(new java.awt.Color(51, 102, 255));
+        jPanel3.setBackground(new java.awt.Color(0, 0, 0));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("First Name :");
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Last Name :");
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Email :");
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Account Type :");
 
         ut.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "User" }));
@@ -167,6 +171,7 @@ public class accountDetails extends javax.swing.JFrame {
         });
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("User Name :");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
