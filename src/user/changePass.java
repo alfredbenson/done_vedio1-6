@@ -147,6 +147,12 @@ public class changePass extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Enter  New Pass :");
 
+        newpass.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newpassActionPerformed(evt);
+            }
+        });
+
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Confirm Password :");
@@ -267,36 +273,48 @@ public class changePass extends javax.swing.JFrame {
     private void jPanel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseClicked
       
       try{
-        dbConnector dbc = new dbConnector();
-         Session sess = Session.getInstance();
-         
-     
-       String query = "SELECT * FROM tbl_user  WHERE u_id = '"+sess.getUid()+"'";
-            ResultSet rs = dbc.getData(query);
-         if(rs.next()){
-         String olddbpass = rs.getString("u_password");
-         String oldhash = passwordHasher.hashPassword(oldpass.getText());
-         if(olddbpass.equals(oldhash)){
-             String npass = passwordHasher.hashPassword(newpass.getText());
-             dbc.updateData("UPDATE tbl_user SET u_password = '"+npass+"' WHERE u_id = '"+sess.getUid()+"'");
-             JOptionPane.showMessageDialog(null,"Succesfully Updated");
-             loginform lf = new loginform();
-             lf.setVisible(true);
-             this.dispose();
-         }else{
-         JOptionPane.showMessageDialog(null," Old Password is Incorrect");
-         
-         }
-         
-      }   
-      }catch(SQLException | NoSuchAlgorithmException ex){
-          System.out.println(""+ex);
-      } 
+           dbConnector dbc = new dbConnector();
+           Session sess = Session.getInstance();
+           
+           String query = "SELECT * FROM tbl_user WHERE u_id= '"+sess.getUid()+"'";
+           ResultSet rs = dbc.getData(query);
+           
+           if(rs.next()){
+               String olddbpass = rs.getString("u_password");
+               String oldhash = passwordHasher.hashPassword(oldpass.getText());
+               
+               if(!olddbpass.equals(oldhash)){
+                    JOptionPane.showMessageDialog(null, "Old Password is Incorrect!");
+                    oldpass.setText("");
+               }else if(newpass.getText().length() < 8){
+                    JOptionPane.showMessageDialog(null, "Password must be 8 characters and above!");
+                    newpass.setText("");
+                }else if(!conpass.getText().equals(conpass.getText())){
+                    JOptionPane.showMessageDialog(null, "Confirm Password does not Match!");
+                    conpass.setText("");
+                }else{
+                    String npass = passwordHasher.hashPassword(newpass.getText());
+                    dbc.updateData("UPDATE tbl_user SET u_password = '"+npass+"' WHERE u_id = '"+sess.getUid()+"'");
+                    JOptionPane.showMessageDialog(null, "Password Changed Successfully!");
+                    loginform lf = new loginform();
+                    lf.setVisible(true);
+                    this.dispose();
+               }
+           }
+                   
+                   
+       }catch(SQLException | NoSuchAlgorithmException ex){
+           System.out.println(""+ex);
+       }
     }//GEN-LAST:event_jPanel4MouseClicked
 
     private void conpassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_conpassActionPerformed
-       
+      
     }//GEN-LAST:event_conpassActionPerformed
+
+    private void newpassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newpassActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_newpassActionPerformed
 
     /**
      * @param args the command line arguments
